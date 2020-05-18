@@ -1,1 +1,1 @@
-export * from "./newsService";
+export { default } from "./newsService";

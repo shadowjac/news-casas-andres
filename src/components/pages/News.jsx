@@ -1,8 +1,9 @@
 import React from "react";
-import { newsService } from "../../services";
-import { Card, NewsContainer } from "../layout";
+import newsService from "../../services";
+import { Card } from "../layout";
 import WithLoading from "../layout/hoc/WithLoading";
 import { categories } from "../../constants/categories";
+import styled from "styled-components";
 
 const NewsList = ({ news }) => news.map((n) => <Card {...n} key={n.news_id} />);
 const ListWithLoading = WithLoading(NewsList);
@@ -17,7 +18,7 @@ export class News extends React.Component {
       this.props.category === categories.search &&
       prevProps.match.params.query !== this.props.match.params.query
     ) {
-      this.setState({ news:[], isLoading: true });
+      this.setState({ news: [], isLoading: true });
       const news = await newsService.searchBy(this.props.match.params.query);
       this.setState({ news, isLoading: false });
     }
@@ -39,11 +40,15 @@ export class News extends React.Component {
   render() {
     const news = this.state.news;
     return (
-      <>
-        <NewsContainer>
-          <ListWithLoading isLoading={this.state.isLoading} news={news} />
-        </NewsContainer>
-      </>
+      <NewsContainer>
+        <ListWithLoading isLoading={this.state.isLoading} news={news} />
+      </NewsContainer>
     );
   }
 }
+
+const NewsContainer = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+`;
