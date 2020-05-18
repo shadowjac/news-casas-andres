@@ -1,41 +1,25 @@
-import React from "react";
-import { Link, Switch, Route, BrowserRouter } from "react-router-dom";
-import styled from "styled-components";
-import { NewsRoutes } from "../../routing/NewsRoutes";
-import { Header } from "./Header";
+import React from 'react'
+import styled from 'styled-components';
+import { NewsRoutes } from '../../routing/NewsRoutes';
+import { Link } from 'react-router-dom';
 
 export const Menu = () => {
-  return (
-    <>
-      <BrowserRouter>
-        <Route component={Header} />
+    return (
         <NavBar>
-          <ListContainer>
-            {NewsRoutes.map((r) =>
-              r.visible ? (
-                <ListItem key={r.text}>
-                  <Link to={r.path}>{r.text}</Link>
-                </ListItem>
-              ) : (
-                <></>
-              )
-            )}
-          </ListContainer>
-        </NavBar>
-        <Switch>
-          {NewsRoutes.map((r) => (
-            <Route
-              path={r.path}
-              component={(props) => r.component(props)}
-              key={r.text}
-            />
-          ))}
-        </Switch>
-      </BrowserRouter>
-    </>
-  );
-};
-
+        <ListContainer>
+          {NewsRoutes.map((r) =>
+            r.visible ? (
+              <ListItem key={r.text}>
+                <Link to={r.path}>{r.text}</Link>
+              </ListItem>
+            ) : (
+              <></>
+            )
+          )}
+        </ListContainer>
+      </NavBar>
+    )
+}
 const NavBar = styled.nav`
   padding: 10px 70px;
   background-color: #aaaaff;

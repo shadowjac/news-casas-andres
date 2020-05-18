@@ -1,14 +1,5 @@
 import React from "react";
-import "./App.css";
-import {Header, Menu } from "./components/layout";
+import AppRouter from "./AppRouter";
 
-function App() {
-  return (
-    <>
-      {/* <Header /> */}
-      <Menu />
-    </>
-  );
-}
-
+const App = () => <AppRouter />;
 export default App;
