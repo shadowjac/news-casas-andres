@@ -1,16 +1,38 @@
 import React from "react";
-import { newsService } from "../../services/newsService";
-import { Card } from "../layout/Card";
-import { NewsContainer } from "../layout/NewsContainer";
+import { newsService } from "../../services";
+import { Card, NewsContainer } from "../layout";
+import WithLoading from "../layout/hoc/WithLoading";
+import { categories } from "../../constants/categories";
 
+const NewsList = ({ news }) => news.map((n) => <Card {...n} key={n.news_id} />);
+const ListWithLoading = WithLoading(NewsList);
 export class News extends React.Component {
   constructor(props) {
     super(props);
     this.state = { news: [], isLoading: true };
   }
 
+  async componentDidUpdate(prevProps, prevState) {
+    if (
+      this.props.category === categories.search &&
+      prevProps.match.params.query !== this.props.match.params.query
+    ) {
+      this.setState({ news:[], isLoading: true });
+      const news = await newsService.searchBy(this.props.match.params.query);
+      this.setState({ news, isLoading: false });
+    }
+  }
+
   async componentDidMount() {
-    const news = await newsService.searchByCategory(this.props.category);
+    const {
+      category,
+      match: { params },
+    } = this.props;
+    const response =
+      category === categories.search
+        ? newsService.searchBy(params.query)
+        : newsService.searchByCategory(category);
+    const news = await response;
     this.setState({ news, isLoading: false });
   }
 
@@ -18,11 +40,8 @@ export class News extends React.Component {
     const news = this.state.news;
     return (
       <>
-        {this.state.isLoading && <div>Loading...</div>}
         <NewsContainer>
-          {news &&
-            !this.state.isLoading &&
-            news.map((n) => <Card {...n} key={n.news_id} />)}
+          <ListWithLoading isLoading={this.state.isLoading} news={news} />
         </NewsContainer>
       </>
     );

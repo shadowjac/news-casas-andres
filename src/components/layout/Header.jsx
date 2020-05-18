@@ -1,44 +1,56 @@
 import React from "react";
-import { BrowserRouter, Link, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
-import { NewsRoutes } from "../../routing/NewsRoutes";
 
-export const Header = () => {
-  return (
-    <>
-      <BrowserRouter>
-        <NavBar>
-          <ListContainer>
-            {NewsRoutes.map((r) => (
-              <ListItem>
-                <Link to={r.path}>{r.text}</Link>
-              </ListItem>
-            ))}
-          </ListContainer>
-        </NavBar>
-        <Switch>
-          {NewsRoutes.map((r) => (
-            <Route path={r.path} component={(props) => r.component(props)} />
-          ))}
-        </Switch>
-      </BrowserRouter>
-    </>
-  );
-};
+export class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { query: "" };
 
-const NavBar = styled.nav`
-  padding: 10px 70px;
-  background-color: #aaaaff;
-`;
-
-const ListContainer = styled.ul`
-  display: flex;
-  justify-content: space-between;
-  list-style: none;
-`;
-
-const ListItem = styled.li`
-  a {
-    text-decoration: none;
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
+  handleSubmit(e) {
+    e.preventDefault();
+    const { history } = this.props;
+    const { query } = this.state;
+    history.push(`/search/${query}`);
+  }
+
+  handleChange(event) {
+    this.setState({ query: event.target.value });
+  }
+
+  render() {
+    return (
+      <HeaderContainer>
+        <Title>News Feed</Title>
+        <SearchContainer>
+          <form onSubmit={this.handleSubmit}>
+            <input
+              type="text"
+              name="query"
+              onChange={this.handleChange}
+              placeholder="Search"
+            />
+          </form>
+        </SearchContainer>
+      </HeaderContainer>
+    );
+  }
+}
+
+const HeaderContainer = styled.div`
+  display: flex;
+  height: 50px;
+  padding-left: 10px;
+  align-items: center;
+  background-color: yellowgreen;
+`;
+
+const Title = styled.div`
+  font-size: 20px;
+`;
+
+const SearchContainer = styled.div`
+  border: 0;
 `;
