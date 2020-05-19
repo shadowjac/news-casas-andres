@@ -1,6 +1,6 @@
 import { baseService } from "./baseService";
 
-export const newsService = {
+const newsService = {
   searchByDate: async (date) => baseService.get(`/latest/${date}`),
 
   searchByCategory: async (category) =>
@@ -8,3 +8,4 @@ export const newsService = {
 
   searchBy: async (query) => baseService.get(`/search/${query}`),
 };
+export default newsService;

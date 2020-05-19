@@ -1,10 +1,5 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import { Header } from "./components/layout/Header";
+import AppRouter from "./AppRouter";
 
-function App() {
-  return <Header />;
-}
-
+const App = () => <AppRouter />;
 export default App;

@@ -55,7 +55,7 @@ const FooterContainer = styled.div`
     height: 30px;
     width: 90px;
     background-color: #aaaaff;
-    color: #696969;
+    color: #ffffff;
     text-decoration: none;
     border: none;
     cursor: pointer;

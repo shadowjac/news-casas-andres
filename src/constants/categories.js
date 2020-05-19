@@ -1,4 +1,5 @@
 export const categories = {
+  search: -1,
   politics: 1,
   international: 2,
   technology: 3,
