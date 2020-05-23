@@ -1,17 +1,30 @@
 import React from "react";
-import newsService from "../../services";
 import { Card } from "../layout";
 import WithLoading from "../layout/hoc/WithLoading";
 import { categories } from "../../constants/categories";
 import styled from "styled-components";
-import moment from "moment";
+import { connect } from "react-redux";
+import {
+  searchByCategoryAction,
+  searchByQueryAction,
+  getTodayNewsAction,
+} from "./../../redux/actions";
 
-const NewsList = ({ news }) => news.map((n) => <Card {...n} key={n.news_id} />);
+const NewsList = ({ news }) =>
+  news ? news.map((n) => <Card {...n} key={n.news_id} />) : <></>;
 const ListWithLoading = WithLoading(NewsList);
-export class News extends React.Component {
+
+class NewsComponent extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { news: [], isLoading: true };
+    const {
+      searchByCategoryAction,
+      searchByQueryAction,
+      getTodayNewsAction,
+    } = props;
+    this.searchByCategory = searchByCategoryAction;
+    this.searchByQuery = searchByQueryAction;
+    this.getTodayNews = getTodayNewsAction;
   }
 
   async componentDidUpdate(prevProps, prevState) {
@@ -19,9 +32,7 @@ export class News extends React.Component {
       this.props.category === categories.search &&
       prevProps.match.params.query !== this.props.match.params.query
     ) {
-      this.setState({ news: [], isLoading: true });
-      const news = await newsService.searchBy(this.props.match.params.query);
-      this.setState({ news, isLoading: false });
+      this.searchByQuery(this.props.match.params.query);
     }
   }
 
@@ -30,34 +41,50 @@ export class News extends React.Component {
       category,
       match: { params },
     } = this.props;
-
     switch (category) {
       case categories.search:
-        return await newsService.searchBy(params.query);
+        await this.searchByQuery(params.query);
+        break;
       case categories.home:
-        return await newsService.searchByDate(moment().format("YYYY-MM-DD"));
+        await this.getTodayNews();
+        break;
       default:
-        return await newsService.searchByCategory(category);
+        await this.searchByCategory(category);
+        break;
     }
   }
 
   async componentDidMount() {
-    const news = await this.getNews();
-    this.setState({ news, isLoading: false });
+    this.getNews();
   }
 
   render() {
-    const news = this.state.news;
+    const news = this.props.news;
+    console.log("this.props.isLoading :>> ", this.props.isLoading);
     return (
-      <NewsContainer isLoading={this.state.isLoading}>
-        <ListWithLoading isLoading={this.state.isLoading} news={news} />
+      <NewsContainer isLoading={this.props.isLoading}>
+        <ListWithLoading isLoading={this.props.isLoading} news={news} />
       </NewsContainer>
     );
   }
 }
+const mapStateToProps = (state, ownProps) => {
+  return {
+    news: state.news,
+    category: ownProps.category,
+    isLoading: state.isLoading,
+  };
+};
+
+const mapDispatchToProps = {
+  searchByCategoryAction,
+  searchByQueryAction,
+  getTodayNewsAction,
+};
+export const News = connect(mapStateToProps, mapDispatchToProps)(NewsComponent);
 
 const NewsContainer = styled.div`
-  display: ${props => props.isLoading ? 'flex' : 'grid'};
+  display: ${(props) => (props.isLoading ? "flex" : "grid")};
   grid-column-gap: 30px;
   grid-row-gap: 10px;
   grid-template-columns: 1fr;
