@@ -1,5 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import searchButton from "./../../static/search-icon.svg";
+import newsIcon from "./../../static/news-icon.png";
+import { Link } from "react-router-dom";
 
 export class Header extends React.Component {
   constructor(props) {
@@ -23,16 +26,25 @@ export class Header extends React.Component {
   render() {
     return (
       <HeaderContainer>
-        <Title>News Feed</Title>
+        <Title>
+          <Link to="/">
+            <img src={newsIcon} alt="news-ac" width="100px" height="60px" />
+          </Link>
+        </Title>
         <SearchContainer>
-          <form onSubmit={this.handleSubmit}>
-            <input
-              type="text"
-              name="query"
-              onChange={this.handleChange}
-              placeholder="Search"
-            />
-          </form>
+          <div>
+            <form onSubmit={this.handleSubmit}>
+              <input
+                type="text"
+                name="query"
+                onChange={this.handleChange}
+                placeholder="Search"
+              />
+            </form>
+            <ButtonStyled>
+              <img src={searchButton} alt="" />
+            </ButtonStyled>
+          </div>
         </SearchContainer>
       </HeaderContainer>
     );
@@ -42,9 +54,11 @@ export class Header extends React.Component {
 const HeaderContainer = styled.div`
   display: flex;
   height: 50px;
-  padding-left: 10px;
+  padding: 0 10px;
   align-items: center;
   background-color: yellowgreen;
+  justify-content: space-between;
+  height: 60px;
 `;
 
 const Title = styled.div`
@@ -52,5 +66,21 @@ const Title = styled.div`
 `;
 
 const SearchContainer = styled.div`
+  border: 0;
+  input {
+    height: 30px;
+    border-radius: 20px;
+    padding-left: 10px;
+    border: 0px;
+    color: #222222;
+  }
+`;
+
+const ButtonStyled = styled.a`
+  position: absolute;
+  margin-top: -27px;
+  margin-right: 10px;
+  right: 0;
+  padding: 0 10px;
   border: 0;
 `;

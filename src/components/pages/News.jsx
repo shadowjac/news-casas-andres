@@ -49,7 +49,7 @@ export class News extends React.Component {
   render() {
     const news = this.state.news;
     return (
-      <NewsContainer>
+      <NewsContainer isLoading={this.state.isLoading}>
         <ListWithLoading isLoading={this.state.isLoading} news={news} />
       </NewsContainer>
     );
@@ -57,7 +57,16 @@ export class News extends React.Component {
 }
 
 const NewsContainer = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-around;
+  display: ${props => props.isLoading ? 'flex' : 'grid'};
+  grid-column-gap: 30px;
+  grid-row-gap: 10px;
+  grid-template-columns: 1fr;
+  margin: 0 auto;
+  max-width: 1108px;
+  @media screen and (min-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media screen and (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
 `;
