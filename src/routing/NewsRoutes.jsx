@@ -3,11 +3,16 @@ import { News } from "../components/pages";
 import { categories } from "../constants/categories";
 
 const createComponent = (props, category) => {
-  console.log('props :>> ', props);
-  return(
-  <News {...props} category={category} />
-)};
+  console.log("props :>> ", props);
+  return <News {...props} category={category} />;
+};
 export const NewsRoutes = [
+  {
+    path: "/",
+    text: "Home",
+    visible: true,
+    component: props => createComponent(props, categories.home)
+  },
   {
     path: "/deportes",
     text: "Deportes",
@@ -47,6 +52,6 @@ export const NewsRoutes = [
   {
     path: "/search/:query",
     visible: false,
-    component: (props) => createComponent(props, categories.search)
-  }
+    component: (props) => createComponent(props, categories.search),
+  },
 ];
