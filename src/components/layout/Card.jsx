@@ -22,12 +22,9 @@ export const Card = ({ img_url, title, date, url, source_name }) => {
 const CardContainer = styled.div`
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
-  width: 23%;
-  display: flex;
-  flex-shrink: 1;
+  width: 94%;
   margin: 10px 0 10px 0;
   padding: 10px;
-  flex-direction: column;
   justify-content: space-between;
   background-color: #ffffff;
 `;
@@ -38,6 +35,13 @@ const Img = styled.img`
 const Title = styled.div`
   height: 65px;
   padding-top: 5px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-height: 65px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  cursor: default;
 `;
 
 const FooterContainer = styled.div`
@@ -45,7 +49,7 @@ const FooterContainer = styled.div`
   justify-content: space-between;
   align-content: center;
   align-items: center;
-  padding-top: 5px;
+  padding-top: 25px;
   div {
     color: #a9a9a9;
     font-size: 14px;
