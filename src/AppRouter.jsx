@@ -11,6 +11,7 @@ const AppRouter = () => {
       <Switch>
         {NewsRoutes.map((r) => (
           <Route
+            exact={r.path === "/"}
             path={r.path}
             component={(props) => r.component(props)}
             key={r.text}
