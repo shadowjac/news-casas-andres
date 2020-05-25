@@ -30,6 +30,7 @@ export class Header extends React.Component {
           <Link to="/">
             <img src={newsIcon} alt="news-ac" width="100px" height="60px" />
           </Link>
+          <span>News Fedd FAR</span>
         </Title>
         <SearchContainer>
           <div>
