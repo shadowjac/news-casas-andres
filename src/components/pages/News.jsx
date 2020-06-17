@@ -60,7 +60,6 @@ class NewsComponent extends React.Component {
 
   render() {
     const news = this.props.news;
-    console.log("this.props.isLoading :>> ", this.props.isLoading);
     return (
       <NewsContainer isLoading={this.props.isLoading}>
         <ListWithLoading isLoading={this.props.isLoading} news={news} />
